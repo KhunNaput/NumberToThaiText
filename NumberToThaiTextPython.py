@@ -1,8 +1,6 @@
-class ChangeNumberToText:
-
-    def NumberToThaiText(num):
+def NumberToThaiText(num):
         num1 = num
-        #โปรแกรมทำงานได้ถึงแค่หลักล้านล้านเท่านัน, การรับข้อมูลจะต้องเป็นข้อมูลขนิด Float หรือ int เท่านั้น
+        #โปรแกรมทำงานได้ถึงแค่หลักล้านล้านเท่านัน, การรับข้อมูลจะต้องเป็นข้อมูลขนิด Float, Integer หรือ Demical เท่านั้น
         txtNum = ["", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
         last_sec_txtNum = ["", "", "ยี่", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
         last_txtNum = ["", "เอ็ด", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
@@ -38,6 +36,8 @@ class ChangeNumberToText:
         val = "" #ประกาศตัวแปลเพื่อใช้ในการเก็บข้อความที่แปลง
         #ส่วนของการแปลงตัวเลข
         for i in range(0, len(wight[0])):
+            # if i == len(wight[0])-1: == คือตำแหน่งความยาวทั้งหมดของข้อมูลลบด้วย 1 // ถ้ายาว 7 ก็เท่ากับ 6
+                # if int(wight[0][i-1]) == 0: คือค่าของข้อมูลณต่ำแหน่งนั้น-1 มีค่าเท่ากับ 0
             if i == len(wight[0])-1:
                 if int(wight[0][i-1]) == 0:
                     val += txtNum[int(wight[0][i])] + type_bath[i]
@@ -48,20 +48,25 @@ class ChangeNumberToText:
                         val += last_txtNum[int(wight[0][i])] + type_bath[i]
             elif i == len(wight[0])-2:
                 val += last_sec_txtNum[int(wight[0][i])] + type_bath[i]
-
             elif i == (len(wight[0])-1) - 6:
-                if int(wight[0][i-1]) == 0:
+                if int(wight[0][i]) == 0:
                     val += txtNum[int(wight[0][i])] + type_bath[i]
                 else:
-                    if len(wight[0]) == 1:
-                        val += txtNum[int(wight[0][i])] + type_bath[i]
+                    if len(wight[0][i]) == 1:
+                        if len(wight[0]) == 7:
+                            val += txtNum[int(wight[0][i])] + type_bath[i]
+                        else:
+                            print(wight[0][i-1])
+                            if wight[0][i-1] == "0":
+                                val += txtNum[int(wight[0][i])] + type_bath[i]
+                            else:
+                                val += last_txtNum[int(wight[0][i])] + type_bath[i]
                     else:
                         val += last_txtNum[int(wight[0][i])] + type_bath[i]
             elif i == (len(wight[0])-1) - 7:
                 val += last_sec_txtNum[int(wight[0][i])] + type_bath[i]
             else:
                 val += txtNum[int(wight[0][i])] + type_bath[i]
-
         if val == "":
             val += zero + "บาท"
         else:
@@ -73,16 +78,19 @@ class ChangeNumberToText:
             wight[1]
         except:
             return val
-        l = 0
+
         d = 0
+        l = 0
         #เช็คค่าทศนิยมว่าเป็นศุนย์ทั้งหมดหรือไม่
         for i in wight[1]:
-            l = l+1
-            if l >= 3:
-                d += 0
-            else:    
-                if int(i) != 0:
+            l = l + 1
+            if int(i) != 0:
+                if l >= 3:
+                    d += 0
+                else:
                     d += 1
+
+
         if d != 0:
             val += "" #ถ้าไม่เป็นศูนย์หมดก็เพื่มข้อมูล
             #เพื่อความถูกต้องของการอ่าน ทศนิยมหลักเดียวจะต้องถูกทำให้เป็น 2 หลัก
@@ -113,8 +121,3 @@ class ChangeNumberToText:
         #-----------------------------------------------------------------------------------------------
         #ส่งค่ากลับไปแสดง
         return val
-
-
-
-
-
